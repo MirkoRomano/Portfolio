@@ -302,6 +302,7 @@ MonoBehaviour:
   - {x: -9.510564, y: 0.6955136, z: -3.0108817}
   - {x: -9.510564, y: -0.69551426, z: 3.010884}
   - {x: -5.8778524, y: -1.8208785, z: 7.882591}
+  currentRotationDegrees: 0
 --- !u!4 &76243990
 Transform:
   m_ObjectHideFlags: 0
@@ -621,7 +622,7 @@ GameObject:
   - component: {fileID: 539503504}
   - component: {fileID: 539503503}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: MenuObjects
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
