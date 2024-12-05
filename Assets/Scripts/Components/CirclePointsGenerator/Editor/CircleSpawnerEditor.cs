@@ -172,7 +172,7 @@ namespace Portfolio.UnityEditor
                     continue;
                 }
 
-                GameObject instantiatedObject = GameObject.Instantiate(prefab.objectReferenceValue as GameObject, transform);
+                GameObject instantiatedObject = PrefabUtility.InstantiatePrefab(prefab.objectReferenceValue, transform) as GameObject;
                 instantiatedObject.name = $"Object_{i}";
                 element.objectReferenceValue = instantiatedObject.transform;
             }
