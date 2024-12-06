@@ -37,13 +37,18 @@ namespace Portfolio
         /// </summary>
         private Camera mainCamera;
 
+        /// <summary>
+        /// Item that's facing the camera
+        /// </summary>
+        IRoteable facingItem = null;
+
         private void Start()
         {
             mainCamera = Camera.main;
 
-            if (spawner.GetFacingbject(mainCamera.transform).TryGetComponent<IRoteable>(out var rotatable))
+            if (spawner.GetFacingbject(mainCamera.transform).TryGetComponent<IRoteable>(out facingItem))
             {
-                rotatable.CanRotate = true;
+                facingItem.CanRotate = true;
             }
         }
 
@@ -82,17 +87,14 @@ namespace Portfolio
         /// <param name="direction">Rotation direction</param>
         private IEnumerator RotateMenu(Direction direction)
         {
-            //TOFIX: The item is rotating, and because of that the dot prooduct doesn't return the right facing item
-            if (spawner.GetFacingbject(mainCamera.transform).TryGetComponent<IRoteable>(out var rotatable))
-            {
-                rotatable.CanRotate = false;
-            }
+            facingItem.CanRotate = false;
 
             yield return spawner.RotateCoroutine(spawner.AngleStep * (int)direction, menuRotationAnimationInSeconds);
 
-            if (spawner.GetFacingbject(mainCamera.transform).TryGetComponent<IRoteable>(out var nextRotatable))
+            //TOFIX: sometimes it took the most far item
+            if (spawner.GetFacingbject(mainCamera.transform).TryGetComponent<IRoteable>(out facingItem))
             {
-                nextRotatable.CanRotate = true;
+                facingItem.CanRotate = true;
             }
 
             animationCoroutine = null;

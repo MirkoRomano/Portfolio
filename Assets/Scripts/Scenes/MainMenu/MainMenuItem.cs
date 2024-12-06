@@ -141,13 +141,14 @@ namespace Portfolio
 
             while (elapsedTime < returnRotationTimeInSeconds)
             {
+                targetRotation = Quaternion.LookRotation(camera.transform.position - transform.position);
                 transform.rotation = Quaternion.Lerp(startingRotation, targetRotation, elapsedTime / returnRotationTimeInSeconds);
                 elapsedTime += Time.deltaTime;
 
                 yield return null;
             }
 
-            transform.rotation = targetRotation;
+            transform.rotation = Quaternion.LookRotation(camera.transform.position - transform.position);
             callback?.Invoke();
         }
 

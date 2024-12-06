@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -97,7 +98,7 @@ namespace Portfolio
 
         private void Awake()
         {
-            if(prefab == null)
+            if (prefab == null)
             {
                 Debug.LogWarning($"[{nameof(CircleSpawner)}]: circle spawner prefab null reference");
             }
@@ -135,7 +136,7 @@ namespace Portfolio
             {
                 elapsedTime += Time.deltaTime;
                 float t = Mathf.Clamp01(elapsedTime / durationInSeconds);
-                float interpolatedRotation = startRotation + rotationDifference * t;
+                float interpolatedRotation = Mathf.Lerp(startRotation, targetRotation, t);
                 Rotate(interpolatedRotation - currentRotationDegrees);
                 yield return null;
             }
@@ -151,17 +152,28 @@ namespace Portfolio
         /// <exception cref="NotFoundException"></exception>
         public Transform GetFacingbject(Transform facingObject)
         {
+            return GetFacingbject(facingObject.forward, facingObject.position);
+        }
+
+        /// <summary>
+        /// Get the object that's facing another object
+        /// </summary>
+        /// <param name="facingDirection">Facing direction normalizedVector</param>
+        /// <returns></returns>
+        /// <exception cref="NotFoundException"></exception>
+        public Transform GetFacingbject(Vector3 facingDirection, Vector3 position)
+        {
             float mostNegativeDot = float.MaxValue;
-            List<int> candidates = new List<int>(); 
+            List<int> candidates = new List<int>();
 
             for (int i = 0; i < objects.Length; i++)
             {
-                float product = Vector3.Dot(objects[i].forward, facingObject.forward);
+                float product = Vector3.Dot(objects[i].forward, facingDirection);
 
                 if (product < mostNegativeDot)
                 {
                     mostNegativeDot = product;
-                    candidates.Clear();  
+                    candidates.Clear();
                     candidates.Add(i);
                 }
                 else if (Mathf.Approximately(product, mostNegativeDot))
@@ -170,15 +182,15 @@ namespace Portfolio
                 }
             }
 
-             if (candidates.Count > 0)
+            if (candidates.Count > 0)
             {
                 float closestDistance = float.MaxValue;
                 int closestIndex = candidates[0];
 
                 foreach (int index in candidates)
                 {
-                    float distance = Vector3.Distance(objects[index].position, facingObject.position);
-                    if (distance < closestDistance) 
+                    float distance = Vector3.Distance(objects[index].position, position);
+                    if (distance < closestDistance)
                     {
                         closestDistance = distance;
                         closestIndex = index;
@@ -190,6 +202,5 @@ namespace Portfolio
 
             throw new NotFoundException("Most opposite object not found");
         }
-
     }
 }

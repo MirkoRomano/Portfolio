@@ -632,7 +632,7 @@ PrefabInstance:
     - target: {fileID: 2951184885975718452, guid: 2ac0be09292b6c545b16326215ecd27e,
         type: 3}
       propertyPath: rotationSpeed
-      value: 5
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 2951184885975718452, guid: 2ac0be09292b6c545b16326215ecd27e,
         type: 3}
@@ -888,6 +888,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: bc751854002a80f438297d85ecef928f,
         type: 2}
+    - target: {fileID: 2951184885975718452, guid: 2ac0be09292b6c545b16326215ecd27e,
+        type: 3}
+      propertyPath: returnRotationTimeInSeconds
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4755014058548394598, guid: 2ac0be09292b6c545b16326215ecd27e,
         type: 3}
       propertyPath: m_Name
