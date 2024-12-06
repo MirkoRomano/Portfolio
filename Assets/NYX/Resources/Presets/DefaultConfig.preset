@@ -1,0 +1,283 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!181963792 &2655988077585873504
+Preset:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: DefaultConfig
+  m_TargetType:
+    m_NativeTypeID: 114
+    m_ManagedTypePPtr: {fileID: 11500000, guid: af60ba46512c2334086ad3213abc379d, type: 3}
+    m_ManagedTypeFallback: 
+  m_Properties:
+  - target: {fileID: 0}
+    propertyPath: m_Enabled
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_EditorHideFlags
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_EditorClassIdentifier
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: keys.Array.size
+    value: 6
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: keys.Array.data[0].keyName
+    value: Crouch
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: keys.Array.data[0].keyboardKey
+    value: 99
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: keys.Array.data[0].gamepadKey
+    value: 331
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: keys.Array.data[1].keyName
+    value: Interact
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: keys.Array.data[1].keyboardKey
+    value: 101
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: keys.Array.data[1].gamepadKey
+    value: 333
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: keys.Array.data[2].keyName
+    value: Fire
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: keys.Array.data[2].keyboardKey
+    value: 323
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: keys.Array.data[2].gamepadKey
+    value: 334
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: keys.Array.data[3].keyName
+    value: AIM
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: keys.Array.data[3].keyboardKey
+    value: 324
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: keys.Array.data[3].gamepadKey
+    value: 335
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: keys.Array.data[4].keyName
+    value: Reload
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: keys.Array.data[4].keyboardKey
+    value: 114
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: keys.Array.data[4].gamepadKey
+    value: 332
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: keys.Array.data[5].keyName
+    value: Melee
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: keys.Array.data[5].keyboardKey
+    value: 118
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: keys.Array.data[5].gamepadKey
+    value: 338
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: defaultKeys.Array.size
+    value: 6
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: defaultKeys.Array.data[0].keyboard_key
+    value: 99
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: defaultKeys.Array.data[0].gamepad_key
+    value: 330
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: defaultKeys.Array.data[1].keyboard_key
+    value: 101
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: defaultKeys.Array.data[1].gamepad_key
+    value: 330
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: defaultKeys.Array.data[2].keyboard_key
+    value: 323
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: defaultKeys.Array.data[2].gamepad_key
+    value: 330
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: defaultKeys.Array.data[3].keyboard_key
+    value: 324
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: defaultKeys.Array.data[3].gamepad_key
+    value: 330
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: defaultKeys.Array.data[4].keyboard_key
+    value: 114
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: defaultKeys.Array.data[4].gamepad_key
+    value: 330
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: defaultKeys.Array.data[5].keyboard_key
+    value: 118
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: defaultKeys.Array.data[5].gamepad_key
+    value: 330
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: axis.Array.size
+    value: 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: axis.Array.data[0].axisName
+    value: Vertical
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: axis.Array.data[0].keyboard.positiveKey
+    value: 119
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: axis.Array.data[0].keyboard.negativeKey
+    value: 115
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: axis.Array.data[0].gamepad.positiveKey
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: axis.Array.data[0].gamepad.negativeKey
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: axis.Array.data[0].gamepad.axis
+    value: 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: axis.Array.data[0].useAxisSmoothing
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: axis.Array.data[0].axisSmoothingAmount
+    value: 0.25
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: axis.Array.data[0].value
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: axis.Array.data[0].refValue
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: axis.Array.data[1].axisName
+    value: Horizontal
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: axis.Array.data[1].keyboard.positiveKey
+    value: 100
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: axis.Array.data[1].keyboard.negativeKey
+    value: 97
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: axis.Array.data[1].gamepad.positiveKey
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: axis.Array.data[1].gamepad.negativeKey
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: axis.Array.data[1].gamepad.axis
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: axis.Array.data[1].useAxisSmoothing
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: axis.Array.data[1].axisSmoothingAmount
+    value: 0.25
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: axis.Array.data[1].value
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: axis.Array.data[1].refValue
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: defaultAxis.Array.size
+    value: 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: defaultAxis.Array.data[0].keyboard_positive
+    value: 119
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: defaultAxis.Array.data[0].keyboard_negative
+    value: 115
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: defaultAxis.Array.data[0].gamepad_positive
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: defaultAxis.Array.data[0].gamepad_negative
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: defaultAxis.Array.data[0].gamepad_axis
+    value: 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: defaultAxis.Array.data[1].keyboard_positive
+    value: 100
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: defaultAxis.Array.data[1].keyboard_negative
+    value: 97
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: defaultAxis.Array.data[1].gamepad_positive
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: defaultAxis.Array.data[1].gamepad_negative
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: defaultAxis.Array.data[1].gamepad_axis
+    value: 1
+    objectReference: {fileID: 0}
+  m_ExcludedProperties: []

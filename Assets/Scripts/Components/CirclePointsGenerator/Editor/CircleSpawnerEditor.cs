@@ -77,6 +77,8 @@ namespace Portfolio.UnityEditor
 
             serializedObject.Update();
 
+            EditorUtility.ShowClicableTargetScript(target);
+
             EditorGUILayout.Space(15);
             EditorGUILayout.PropertyField(prefab);
 

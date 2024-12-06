@@ -1,0 +1,11 @@
+// Graphic Sheet //
+
+Logo :
+	Colors :
+		Blue : 00f0ff
+		Magenta : ff00cc
+
+Backgrounds :
+	Colors :
+		Grey : 434343
+		White : FFFFFF

@@ -42,14 +42,14 @@ namespace Portfolio
         private Transform[] objects = new Transform[0];
 
         /// <summary>
-        /// Rotation angle of a single point
-        /// </summary>
-        private float angleStep => ANGLE_FULL_CIRCLE / numberOfObjects;
-
-        /// <summary>
         /// Current rotation degrees of the circle points
         /// </summary>
         private float currentRotationDegrees = 0;
+
+        /// <summary>
+        /// Rotation angle of a single point
+        /// </summary>
+        public float AngleStep => ANGLE_FULL_CIRCLE / numberOfObjects;
 
         /// <summary>
         /// Points count
@@ -95,6 +95,13 @@ namespace Portfolio
             return objects.GetEnumerator();
         }
 
+        private void Awake()
+        {
+            if(prefab == null)
+            {
+                Debug.LogWarning($"[{nameof(CircleSpawner)}]: circle spawner prefab null reference");
+            }
+        }
 
         /// <summary>
         /// Rotate every points instantaneously by an angle
@@ -106,7 +113,7 @@ namespace Portfolio
 
             for (int i = 0; i < numberOfObjects; i++)
             {
-                float pointAngle = Mathf.Repeat(currentRotationDegrees + (angleStep * i), ANGLE_FULL_CIRCLE);
+                float pointAngle = Mathf.Repeat(currentRotationDegrees + (AngleStep * i), ANGLE_FULL_CIRCLE);
                 objects[i].position = objects[i].position.RotateAround(transform.position, pointAngle, distance, axisRotationDirection);
             }
         }
@@ -122,24 +129,48 @@ namespace Portfolio
             float targetRotation = Mathf.Repeat(startRotation + angle, ANGLE_FULL_CIRCLE);
             float elapsedTime = 0;
 
-            //Prevent wrong rotation direction
-            float rotationDifference = Mathf.Repeat(targetRotation - startRotation, ANGLE_FULL_CIRCLE);
-            if (rotationDifference > ANGLE_FULL_CIRCLE / 2)
-            {
-                rotationDifference -= ANGLE_FULL_CIRCLE;
-            }
+            float rotationDifference = Mathf.DeltaAngle(startRotation, targetRotation);
 
             while (elapsedTime < durationInSeconds)
             {
                 elapsedTime += Time.deltaTime;
                 float t = Mathf.Clamp01(elapsedTime / durationInSeconds);
-                float smoothAngle = startRotation + rotationDifference * t;
-                Rotate(smoothAngle - currentRotationDegrees);
+                float interpolatedRotation = startRotation + rotationDifference * t;
+                Rotate(interpolatedRotation - currentRotationDegrees);
                 yield return null;
             }
 
-            //Rotate remaining angle
             Rotate(targetRotation - currentRotationDegrees);
         }
+
+        /// <summary>
+        /// Get the object that's facing another object
+        /// </summary>
+        /// <param name="facingDirection">Facing direction normalizedVector</param>
+        /// <returns></returns>
+        /// <exception cref="NotFoundException"></exception>
+        public Transform GetFacingbject(Vector3 facingDirection)
+        {
+            float mostNegativeDot = 0f;
+            int perpendicularObjectIndex = 0;
+            
+            for (int i = 0; i < objects.Length; i++) 
+            {
+                float prooduct = -Vector3.Dot(objects[i].forward, facingDirection);
+                if(prooduct < mostNegativeDot) 
+                {
+                    mostNegativeDot = prooduct;
+                    perpendicularObjectIndex = i;
+                }
+            }
+
+            if(Mathf.Approximately(mostNegativeDot, -1f))
+            {
+                return objects[perpendicularObjectIndex];
+            }
+
+            throw new NotFoundException("Most opposte object not found");
+        }
+
     }
 }
