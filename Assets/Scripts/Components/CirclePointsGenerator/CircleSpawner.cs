@@ -149,27 +149,46 @@ namespace Portfolio
         /// <param name="facingDirection">Facing direction normalizedVector</param>
         /// <returns></returns>
         /// <exception cref="NotFoundException"></exception>
-        public Transform GetFacingbject(Vector3 facingDirection)
+        public Transform GetFacingbject(Transform facingObject)
         {
-            float mostNegativeDot = 0f;
-            int perpendicularObjectIndex = 0;
-            
-            for (int i = 0; i < objects.Length; i++) 
+            float mostNegativeDot = float.MaxValue;
+            List<int> candidates = new List<int>(); 
+
+            for (int i = 0; i < objects.Length; i++)
             {
-                float prooduct = -Vector3.Dot(objects[i].forward, facingDirection);
-                if(prooduct < mostNegativeDot) 
+                float product = Vector3.Dot(objects[i].forward, facingObject.forward);
+
+                if (product < mostNegativeDot)
                 {
-                    mostNegativeDot = prooduct;
-                    perpendicularObjectIndex = i;
+                    mostNegativeDot = product;
+                    candidates.Clear();  
+                    candidates.Add(i);
+                }
+                else if (Mathf.Approximately(product, mostNegativeDot))
+                {
+                    candidates.Add(i);
                 }
             }
 
-            if(Mathf.Approximately(mostNegativeDot, -1f))
+             if (candidates.Count > 0)
             {
-                return objects[perpendicularObjectIndex];
+                float closestDistance = float.MaxValue;
+                int closestIndex = candidates[0];
+
+                foreach (int index in candidates)
+                {
+                    float distance = Vector3.Distance(objects[index].position, facingObject.position);
+                    if (distance < closestDistance) 
+                    {
+                        closestDistance = distance;
+                        closestIndex = index;
+                    }
+                }
+
+                return objects[closestIndex];
             }
 
-            throw new NotFoundException("Most opposte object not found");
+            throw new NotFoundException("Most opposite object not found");
         }
 
     }

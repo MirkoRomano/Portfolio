@@ -32,10 +32,24 @@ namespace Portfolio
         /// </summary>
         private Coroutine animationCoroutine = null;
 
+        /// <summary>
+        /// Main camera
+        /// </summary>
+        private Camera mainCamera;
+
+        private void Start()
+        {
+            mainCamera = Camera.main;
+
+            if (spawner.GetFacingbject(mainCamera.transform).TryGetComponent<IRoteable>(out var rotatable))
+            {
+                rotatable.CanRotate = true;
+            }
+        }
 
         private void Update()
         {
-            if(animationCoroutine != null)
+            if (animationCoroutine != null)
             {
                 return;
             }
@@ -50,11 +64,11 @@ namespace Portfolio
                 animationCoroutine = StartCoroutine(RotateMenu(Direction.Clockwise));
             }
 
-            if (Input.GetKeyDown(KeyCode.Space)) 
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                Transform objectTransform = spawner.GetFacingbject(transform.forward);
-                
-                if(objectTransform.TryGetComponent<ISceneInfo>(out ISceneInfo info)) 
+                Transform objectTransform = spawner.GetFacingbject(mainCamera.transform);
+
+                if (objectTransform.TryGetComponent<ISceneInfo>(out ISceneInfo info))
                 {
                     SceneManager.LoadScene(info.GetSceneName());
                 }
@@ -68,7 +82,19 @@ namespace Portfolio
         /// <param name="direction">Rotation direction</param>
         private IEnumerator RotateMenu(Direction direction)
         {
+            //TOFIX: The item is rotating, and because of that the dot prooduct doesn't return the right facing item
+            if (spawner.GetFacingbject(mainCamera.transform).TryGetComponent<IRoteable>(out var rotatable))
+            {
+                rotatable.CanRotate = false;
+            }
+
             yield return spawner.RotateCoroutine(spawner.AngleStep * (int)direction, menuRotationAnimationInSeconds);
+
+            if (spawner.GetFacingbject(mainCamera.transform).TryGetComponent<IRoteable>(out var nextRotatable))
+            {
+                nextRotatable.CanRotate = true;
+            }
+
             animationCoroutine = null;
         }
 

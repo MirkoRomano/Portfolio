@@ -142,3 +142,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuItemInfo: {fileID: 0}
+  delayTimeInSeconds: 5
+  rotationSpeed: 25
+  returnRotationTimeInSeconds: 1

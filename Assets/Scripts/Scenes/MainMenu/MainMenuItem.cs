@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Portfolio
@@ -27,10 +29,62 @@ namespace Portfolio
         [SerializeField]
         private ScriptableMenuItem menuItemInfo;
 
+
+        [SerializeField]
+        private float delayTimeInSeconds = 1f;
+       
+        /// <summary>
+        /// Object rotation speed
+        /// </summary>
+        [SerializeField]
+        private float rotationSpeed = 1f;
+        
+        /// <summary>
+        /// Object return rotation speed
+        /// </summary>
+        [SerializeField]
+        private float returnRotationTimeInSeconds = 1f;
+
         /// <summary>
         /// Allow the object to be roteable
         /// </summary>
-        public bool CanRotate { set; get; }
+        private bool canRotate = false;
+
+        /// <summary>
+        /// Rotation coroutine
+        /// </summary>
+        private Coroutine coroutine = null;
+
+        /// <summary>
+        /// Allow the object to be roteable
+        /// </summary>
+        public bool CanRotate
+        {
+            set
+            {
+                canRotate = value;
+
+                if (canRotate)
+                {
+                    DisableBillboarding();
+                    coroutine = StartCoroutine(ApplyRotation());
+                }
+                else
+                {
+                    if(coroutine != null)
+                    {
+                        StopCoroutine(coroutine);
+                    }
+
+                    StartCoroutine(ReturnToPosition(EnableBillboarding));
+                }
+            }
+
+            get
+            {
+                return canRotate;
+            }
+        }
 
         /// <summary>
         /// Item name
@@ -56,29 +110,66 @@ namespace Portfolio
             return menuItemInfo.Scene.SceneName;
         }
 
-        private Vector2 currentMousePosition => Input.mousePosition;
-        
-        private Vector2 lastMousePosition;
-
-        private Vector2 mouseDelta;
-
-        private void Awake()
+        /// <summary>
+        /// object rotation
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator ApplyRotation()
         {
-            lastMousePosition = Vector2.zero;
-            mouseDelta = Vector2.zero;
+            yield return new WaitForSeconds(delayTimeInSeconds);
+
+            while (true)
+            {
+                float rotationAmount = rotationSpeed * Time.deltaTime;
+                transform.Rotate(0, rotationAmount, 0, Space.World);
+                yield return null;
+            }
         }
 
-        private void Update()
+        /// <summary>
+        /// Return to the original rotation
+        /// </summary>
+        /// <param name="callback">Coroutine finished callback</param>
+        private IEnumerator ReturnToPosition(Action callback)
         {
-            mouseDelta = lastMousePosition - currentMousePosition;
-            lastMousePosition = currentMousePosition;
+            Camera camera = Camera.main;
 
-            if (!CanRotate)
+            Quaternion startingRotation = transform.rotation;
+            Quaternion targetRotation = Quaternion.LookRotation(camera.transform.position - transform.position);
+
+            float elapsedTime = 0f;
+
+            while (elapsedTime < returnRotationTimeInSeconds)
             {
-                return;
+                transform.rotation = Quaternion.Lerp(startingRotation, targetRotation, elapsedTime / returnRotationTimeInSeconds);
+                elapsedTime += Time.deltaTime;
+
+                yield return null;
             }
 
+            transform.rotation = targetRotation;
+            callback?.Invoke();
+        }
 
+        /// <summary>
+        /// Enable billboarding component
+        /// </summary>
+        private void EnableBillboarding() => ChangeBillboardingEnabling(true);
+
+        /// <summary>
+        /// Dsable billboarding component
+        /// </summary>
+        private void DisableBillboarding() => ChangeBillboardingEnabling(false);
+
+        /// <summary>
+        /// Change billboarding component enable state
+        /// </summary>
+        private void ChangeBillboardingEnabling(bool enable)
+        {
+            if (TryGetComponent<Billboarder>(out var billboarder))
+            {
+                billboarder.enabled = enable;
+            }
         }
     }
 }
