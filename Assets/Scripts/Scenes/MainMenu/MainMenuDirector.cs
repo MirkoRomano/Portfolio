@@ -12,7 +12,7 @@ namespace Portfolio
         private enum Direction
         {
             Clockwise = 1,
-            ClockwiseClockwise = -1
+            CounterClockwise = -1
         }
 
         /// <summary>
@@ -24,8 +24,20 @@ namespace Portfolio
         /// <summary>
         /// Menu rotation animation in secoonds
         /// </summary>
-        [SerializeField]
+        [SerializeField, Space(15)]
         private float menuRotationAnimationInSeconds;
+
+        /// <summary>
+        /// Facing object slide animation vector
+        /// </summary>
+        [SerializeField]
+        private Vector3 facingObjectSlideVector;
+
+        /// <summary>
+        /// Facind object slide animation duration in seconds
+        /// </summary>
+        [SerializeField]
+        private float facingObjectRotationAnimationInSeconds;
 
         /// <summary>
         /// Menu rotation coroutine
@@ -37,18 +49,21 @@ namespace Portfolio
         /// </summary>
         private Camera mainCamera;
 
-        /// <summary>
-        /// Item that's facing the camera
-        /// </summary>
-        IRoteable facingItem = null;
-
         private void Start()
         {
             mainCamera = Camera.main;
 
-            if (spawner.GetFacingbject(mainCamera.transform).TryGetComponent<IRoteable>(out facingItem))
+            Transform facingObject = spawner.GetFacingbject(mainCamera.transform).GetChild(0);
+            if (facingObject.TryGetComponent<IRoteable>(out var facingItem))
             {
                 facingItem.CanRotate = true;
+            }
+
+            if (facingObject.TryGetComponent<ISlidable>(out var slidable))
+            {
+                Vector3 startPoint = facingObject.transform.position;
+                Vector3 endPoint = facingObject.transform.position + facingObjectSlideVector;
+                StartCoroutine(slidable.Slide(startPoint, endPoint, facingObjectRotationAnimationInSeconds));
             }
         }
 
@@ -61,7 +76,7 @@ namespace Portfolio
 
             if (Input.GetKeyDown(KeyCode.A))
             {
-                animationCoroutine = StartCoroutine(RotateMenu(Direction.ClockwiseClockwise));
+                animationCoroutine = StartCoroutine(RotateMenu(Direction.CounterClockwise));
             }
 
             if (Input.GetKeyDown(KeyCode.D))
@@ -87,12 +102,30 @@ namespace Portfolio
         /// <param name="direction">Rotation direction</param>
         private IEnumerator RotateMenu(Direction direction)
         {
-            facingItem.CanRotate = false;
+            Transform facingObject = spawner.GetFacingbject(mainCamera.transform).GetChild(0);
+            if (facingObject.TryGetComponent<IRoteable>(out var facingItem))
+            {
+                facingItem.CanRotate = false;
+            }
+
+            if (facingObject.TryGetComponent<ISlidable>(out var slidable))
+            {
+                Vector3 startPoint = facingObject.transform.position;
+                Vector3 endPoint = facingObject.transform.position + -facingObjectSlideVector;
+                yield return slidable.Slide(startPoint, endPoint, facingObjectRotationAnimationInSeconds);
+            }
 
             yield return spawner.RotateCoroutine(spawner.AngleStep * (int)direction, menuRotationAnimationInSeconds);
 
-            //TOFIX: sometimes it took the most far item
-            if (spawner.GetFacingbject(mainCamera.transform).TryGetComponent<IRoteable>(out facingItem))
+            facingObject = spawner.GetFacingbject(mainCamera.transform).GetChild(0);
+            if (facingObject.TryGetComponent<ISlidable>(out  slidable))
+            {
+                Vector3 startPoint = facingObject.transform.position;
+                Vector3 endPoint = facingObject.transform.position + facingObjectSlideVector;
+                yield return slidable.Slide(startPoint, endPoint, facingObjectRotationAnimationInSeconds);
+            }
+
+            if (facingObject.TryGetComponent<IRoteable>(out facingItem))
             {
                 facingItem.CanRotate = true;
             }

@@ -105,6 +105,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 2951184885975718452}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 91df2aa261572b54b833575d4a02a8c1,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7772589106991651316}
   m_SourcePrefab: {fileID: 100100000, guid: 91df2aa261572b54b833575d4a02a8c1, type: 3}
 --- !u!1 &4755014058548394598 stripped
 GameObject:
@@ -141,7 +145,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 904db22ab559574438324ed04c9fd6e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menuItemInfo: {fileID: 0}
-  delayTimeInSeconds: 5
-  rotationSpeed: 25
-  returnRotationTimeInSeconds: 1
+  menuItemInfo: {fileID: 11400000, guid: bc751854002a80f438297d85ecef928f, type: 2}
+--- !u!114 &7772589106991651316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4755014058548394598}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb1f7781a790dba48b0870128425af9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  direction: 1
+  startDelayTimeInSeconds: 3
+  rotationAnglePerSecond: 25
+  lookAtSmoothTimeInSeconds: 0.5

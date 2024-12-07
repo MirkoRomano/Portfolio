@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 namespace Portfolio
@@ -136,8 +137,9 @@ namespace Portfolio
             {
                 elapsedTime += Time.deltaTime;
                 float t = Mathf.Clamp01(elapsedTime / durationInSeconds);
-                float interpolatedRotation = Mathf.Lerp(startRotation, targetRotation, t);
+                float interpolatedRotation = Mathf.Lerp(startRotation, startRotation + rotationDifference, t);
                 Rotate(interpolatedRotation - currentRotationDegrees);
+
                 yield return null;
             }
 
@@ -147,8 +149,8 @@ namespace Portfolio
         /// <summary>
         /// Get the object that's facing another object
         /// </summary>
-        /// <param name="facingDirection">Facing direction normalizedVector</param>
-        /// <returns></returns>
+        /// <param name="facingObject">Facing object</param>
+        /// <param name="epsilon">Dot product tolerance</param>
         /// <exception cref="NotFoundException"></exception>
         public Transform GetFacingbject(Transform facingObject)
         {
@@ -159,9 +161,10 @@ namespace Portfolio
         /// Get the object that's facing another object
         /// </summary>
         /// <param name="facingDirection">Facing direction normalizedVector</param>
-        /// <returns></returns>
+        /// <param name="position">facing object position</param>
+        /// <param name="epsilon">Dot product tolerance</param>
         /// <exception cref="NotFoundException"></exception>
-        public Transform GetFacingbject(Vector3 facingDirection, Vector3 position)
+        public Transform GetFacingbject(Vector3 facingDirection, Vector3 position, float epsilon = 0.01f)
         {
             float mostNegativeDot = float.MaxValue;
             List<int> candidates = new List<int>();
@@ -169,14 +172,13 @@ namespace Portfolio
             for (int i = 0; i < objects.Length; i++)
             {
                 float product = Vector3.Dot(objects[i].forward, facingDirection);
-
                 if (product < mostNegativeDot)
                 {
                     mostNegativeDot = product;
                     candidates.Clear();
                     candidates.Add(i);
                 }
-                else if (Mathf.Approximately(product, mostNegativeDot))
+                else if (Mathf.Abs(product - mostNegativeDot) < epsilon)
                 {
                     candidates.Add(i);
                 }
