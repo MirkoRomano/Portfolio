@@ -86,26 +86,31 @@ namespace Portfolio
         /// <summary>
         /// Return to the original rotation
         /// </summary>
+        /// <param name="objectToLook">Transform of the object to look</param>
         /// <param name="callback">Coroutine finished callback</param>
-        public IEnumerator LookAtSmoothly(Action callback)
+        public IEnumerator LookAtSmoothly(Transform objectToLook, Action callback)
         {
-            Camera camera = Camera.main;
+            Vector3 targetDirection = objectToLook.position - transform.position;
+            targetDirection.y = 0;
 
-            Quaternion startingRotation = transform.rotation;
-            Quaternion targetRotation = Quaternion.LookRotation(camera.transform.position - transform.position);
+            float currentAngle = Mathf.Atan2(transform.forward.x, transform.forward.z) * Mathf.Rad2Deg;
+            float targetAngle = Mathf.Atan2(targetDirection.x, targetDirection.z) * Mathf.Rad2Deg;
+            float angleDifference = Mathf.DeltaAngle(currentAngle, targetAngle);
 
             float elapsedTime = 0f;
-
             while (elapsedTime < lookAtSmoothTimeInSeconds)
             {
-                targetRotation = Quaternion.LookRotation(camera.transform.position - transform.position);
-                transform.rotation = Quaternion.Lerp(startingRotation, targetRotation, elapsedTime / lookAtSmoothTimeInSeconds);
+                float interpolatedAngle = Mathf.LerpAngle(currentAngle, currentAngle + angleDifference, elapsedTime / lookAtSmoothTimeInSeconds);
+                transform.rotation = Quaternion.Euler(0, interpolatedAngle, 0);
                 elapsedTime += Time.deltaTime;
-
                 yield return null;
             }
 
-            transform.rotation = Quaternion.LookRotation(camera.transform.position - transform.position);
+            Vector3 finalDirection = objectToLook.position - transform.position;
+            finalDirection.y = 0;
+            float finalAngle = Mathf.Atan2(finalDirection.x, finalDirection.z) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0, finalAngle, 0);
+
             callback?.Invoke();
         }
 

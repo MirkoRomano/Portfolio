@@ -86,7 +86,7 @@ namespace Portfolio
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                Transform objectTransform = spawner.GetFacingbject(mainCamera.transform);
+                Transform objectTransform = spawner.GetFacingbject(mainCamera.transform).GetChild(0);
 
                 if (objectTransform.TryGetComponent<ISceneInfo>(out ISceneInfo info))
                 {

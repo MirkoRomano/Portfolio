@@ -34,7 +34,7 @@ namespace Portfolio
 
                 if (TryGetComponent<BasicObjectRotator>(out var objectRotator))
                 {
-                    StartCoroutine(objectRotator.LookAtSmoothly(() =>
+                    StartCoroutine(objectRotator.LookAtSmoothly(Camera.main.transform, () =>
                     {
                         DisableObjectRotation();
                         EnableBillboarding();
