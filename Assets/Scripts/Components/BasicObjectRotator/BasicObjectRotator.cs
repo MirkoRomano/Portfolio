@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-namespace Portfolio
+namespace Portfolio.Shared
 {
     public class BasicObjectRotator : MonoBehaviour
     {

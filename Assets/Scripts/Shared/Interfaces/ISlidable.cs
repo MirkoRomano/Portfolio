@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Portfolio
+namespace Portfolio.Shared
 {
     public interface ISlidable
     {

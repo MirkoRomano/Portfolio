@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Portfolio
+namespace Portfolio.MainMenu
 {
     [CreateAssetMenu(fileName = "Item Menu", menuName = "ScriptableObjects/ItemMenu")]
     public class ScriptableMenuItem : ScriptableObject

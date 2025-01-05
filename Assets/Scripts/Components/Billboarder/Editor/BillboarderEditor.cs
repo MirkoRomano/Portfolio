@@ -1,3 +1,4 @@
+using Portfolio.Shared;
 using UnityEditor;
 using UnityEngine;
 
@@ -52,7 +53,7 @@ namespace Portfolio.UnityEditor
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
-            EditorUtility.ShowClicableTargetScript(target);
+            CustomEditorUtility.ShowClicableTargetScript(target);
             
             EditorGUILayout.Space(15);
             EditorGUILayout.PropertyField(useMainCamera);

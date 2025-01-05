@@ -1,7 +1,8 @@
+using Portfolio.Shared;
 using System.Collections;
 using UnityEngine;
 
-namespace Portfolio
+namespace Portfolio.MainMenu
 {
     public class MainMenuItem : MonoBehaviour, ISceneInfo, IRoteable, ISlidable
     {

@@ -1,3 +1,4 @@
+using Portfolio.Shared;
 using UnityEditor;
 using UnityEngine;
 
@@ -77,7 +78,7 @@ namespace Portfolio.UnityEditor
 
             serializedObject.Update();
 
-            EditorUtility.ShowClicableTargetScript(target);
+            CustomEditorUtility.ShowClicableTargetScript(target);
 
             EditorGUILayout.Space(15);
             EditorGUILayout.PropertyField(prefab);

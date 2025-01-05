@@ -1,8 +1,9 @@
+using Portfolio.Shared;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Portfolio
+namespace Portfolio.MainMenu
 {
     public class MainMenuDirector : MonoBehaviour
     {

@@ -1,4 +1,4 @@
-namespace Portfolio
+namespace Portfolio.Shared
 {
     public interface IItemInfo
     {

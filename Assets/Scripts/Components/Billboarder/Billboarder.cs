@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Portfolio
+namespace Portfolio.Shared
 {
     public class Billboarder : MonoBehaviour
     {

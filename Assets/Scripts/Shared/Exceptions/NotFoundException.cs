@@ -1,6 +1,6 @@
 using System;
 
-namespace Portfolio
+namespace Portfolio.Shared
 {
     public class NotFoundException : Exception
     {
