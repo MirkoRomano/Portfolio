@@ -58,6 +58,10 @@ namespace Portfolio.UnityEditor
         /// Error treshold for text resetting
         /// </summary>
         private SerializedProperty errorTreshold;
+        /// <summary>
+        /// Typable group
+        /// </summary>
+        private SerializedProperty group;
 
         /// <summary>
         /// Error committed event
@@ -67,6 +71,14 @@ namespace Portfolio.UnityEditor
         /// Treshold exceeded event
         /// </summary>
         private SerializedProperty onErrorTresholdExceedEvent;
+        /// <summary>
+        /// Text completely typed event
+        /// </summary>
+        private SerializedProperty onTextTypedEvent;
+        /// <summary>
+        /// Text completely resetted event
+        /// </summary>
+        private SerializedProperty onTextResettedEvent;
 
         /// <summary>
         /// Target script text child
@@ -86,8 +98,6 @@ namespace Portfolio.UnityEditor
         /// </summary>
         private RectTransform tmpTextTransform;
 
-
-
         private void OnEnable()
         {
             text = serializedObject.FindProperty("text");
@@ -98,7 +108,10 @@ namespace Portfolio.UnityEditor
             errorTreshold = serializedObject.FindProperty("errorTreshold");
             onErrorCommittedEvent = serializedObject.FindProperty("onErrorCommittedEvent");
             onErrorTresholdExceedEvent = serializedObject.FindProperty("onErrorTresholdExceedEvent");
+            onTextTypedEvent = serializedObject.FindProperty("onTextTypedEvent");
+            onTextResettedEvent = serializedObject.FindProperty("onTextResettedEvent");
             tmpTextProperty = serializedObject.FindProperty("tmpText");
+            group = serializedObject.FindProperty("group");
 
             script = (TypableText)target;
             RetrieveChildTmpText();
@@ -172,6 +185,8 @@ namespace Portfolio.UnityEditor
                 EditorGUILayout.PropertyField(errorTreshold);
             }
 
+            EditorGUILayout.PropertyField(group);
+
             GUILayout.EndVertical();
         }
 
@@ -186,6 +201,8 @@ namespace Portfolio.UnityEditor
             GUILayout.Label("Events");
             EditorGUILayout.PropertyField(onErrorCommittedEvent);
             EditorGUILayout.PropertyField(onErrorTresholdExceedEvent);
+            EditorGUILayout.PropertyField(onTextTypedEvent);
+            EditorGUILayout.PropertyField(onTextResettedEvent);
             GUILayout.EndVertical();
         }
 
@@ -250,6 +267,7 @@ namespace Portfolio.UnityEditor
                 if (!isColorCorrect)
                 {
                     tmpText.color = textColor.colorValue;
+                    EditorUtility.SetDirty(tmpText);
                 }
             }
             catch (Exception)
@@ -269,7 +287,9 @@ namespace Portfolio.UnityEditor
             builder.Append(text.stringValue);
             
             string textToUpdate = builder.ToString();
+            
             tmpText.text = textToUpdate;
+            EditorUtility.SetDirty(tmpText);
 
             serializedObject.FindProperty($"{textArray.name}.Array.size").intValue = textToUpdate.Length;
             for (int i = 0; i < textToUpdate.Length; i++)
@@ -289,6 +309,7 @@ namespace Portfolio.UnityEditor
             tmpTextTransform.anchorMax = Vector2.one;
             tmpTextTransform.offsetMin = Vector2.zero;
             tmpTextTransform.offsetMax = Vector2.zero;
+            EditorUtility.SetDirty(tmpTextTransform);
         }
     }
 }

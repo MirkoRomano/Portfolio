@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using TMPro;
-using UnityEditor.Build;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -10,7 +9,7 @@ using UnityEngine.InputSystem;
 namespace Portfolio.Shared
 {
     [RequireComponentInChildren(typeof(TextMeshProUGUI))]
-    public class TypableText : MonoBehaviour
+    public class TypableText : MonoBehaviour, ITypable, ITextInputHandler
     {
         /// <summary>
         /// Color tag (start)
@@ -26,6 +25,11 @@ namespace Portfolio.Shared
         /// Color tag hexadecimal value
         /// </summary>
         private const string COLOR_HEX_FORMAT = "FFFFFF";
+
+        /// <summary>
+        /// Color tag (default)
+        /// </summary>
+        private const string COLOR_START_DEFAULT = "<color=#FFFFFF>";
 
         /// <summary>
         /// Text to type
@@ -63,6 +67,9 @@ namespace Portfolio.Shared
         [SerializeField]
         private int errorTreshold = 1;
 
+        [SerializeField]
+        private TypableGroup group = null;
+
         /// <summary>
         /// Error committed event
         /// </summary>
@@ -74,6 +81,18 @@ namespace Portfolio.Shared
         /// </summary>
         [SerializeField]
         private UnityEvent onErrorTresholdExceedEvent;
+
+        /// <summary>
+        /// Text completely typed event
+        /// </summary>
+        [SerializeField]
+        private UnityEvent onTextTypedEvent;
+
+        /// <summary>
+        /// Text completely resetted event
+        /// </summary>
+        [SerializeField]
+        private UnityEvent onTextResettedEvent;
 
         /// <summary>
         /// Target script text child
@@ -95,6 +114,27 @@ namespace Portfolio.Shared
         /// Total error count
         /// </summary>
         private int totalErrorCount;
+
+        /// <summary>
+        /// Set the typable text
+        /// </summary>
+        public string Text
+        {
+            set
+            {
+                if(string.Equals(value, text))
+                {
+                    return;
+                }
+
+                text = value;
+                ResetTypableText(value);
+            }
+            get
+            {
+                return text;
+            }
+        }
 
         /// <summary>
         /// Total error count
@@ -119,7 +159,7 @@ namespace Portfolio.Shared
                     return 0;
                 }
 
-                return text.Length - userInput.Count;
+                return userInput.Count;
             }
         }
 
@@ -132,7 +172,7 @@ namespace Portfolio.Shared
             {
                 try
                 {
-                    return text.AsSpan().Slice(0, TypedLength);
+                    return text.AsSpan().Slice(0, userInput.Count);
                 }
                 catch (Exception)
                 {
@@ -142,18 +182,56 @@ namespace Portfolio.Shared
         }
 
         /// <summary>
+        /// Check if the user finished to type the entire text
+        /// </summary>
+        public bool IsTextCompletelyTyped
+        {
+            get
+            {
+                return userInput.Count == text.Length;
+            }
+        }
+
+        /// <summary>
         /// Last input
         /// </summary>
-        public char CurrentChar
+        public char PreviousTypedChar
         {
             get
             {
                 if (userInput == null || userInput.Count == 0)
                 {
-                    return ' ';
+                    throw new InvalidOperationException("There's no char typed previously");
                 }
 
                 return userInput.Peek();
+            }
+        }
+
+        /// <summary>
+        /// The next char to type of the typable text
+        /// </summary>
+        public char CharToType
+        {
+            get
+            {
+                if (userInput == null || IsTextCompletelyTyped)
+                {
+                    throw new InvalidOperationException("There's no char to type");
+                }
+
+                return text[userInput.Count];
+            }
+        }
+
+        /// <summary>
+        /// Check if the typable is enabled
+        /// </summary>
+        public bool Enabled
+        {
+            get
+            {
+                return enabled;
             }
         }
 
@@ -177,6 +255,15 @@ namespace Portfolio.Shared
                     throw new NullReferenceException($"[{nameof(TypableText)}]: Null text component");
                 }
             }
+
+            ReadOnlySpan<char> originalValue = text.AsSpan();
+            ReadOnlySpan<char> richTextValue = tmpText.text.AsSpan().Slice(COLOR_START_DEFAULT.Length, tmpText.text.Length - COLOR_START_DEFAULT.Length);
+            bool areTextTheSame = originalValue.SequenceCompareTo(richTextValue) == 0;
+
+            if (!areTextTheSame)
+            {
+                ResetTypableText(text);
+            }
         }
 
         private void OnEnable()
@@ -186,7 +273,8 @@ namespace Portfolio.Shared
                 return;
             }
 
-            Keyboard.current.onTextInput += CatchInput;
+            SetGroup(group);
+            RegisterKeyboardInput();
         }
 
         private void OnDisable()
@@ -196,24 +284,17 @@ namespace Portfolio.Shared
                 return;
             }
 
-            Keyboard.current.onTextInput -= CatchInput;
+            SetGroup(null);
+            UnregisterKeyboardInput();
         }
 
-        //    /// <summary>
-        //    /// Set the original text (without rich text)
-        //    /// </summary>
-        //    /// <param name="value">Text to set</param>
-        //    public void SetupText(string value)
-        //    {
-        //        originalText = value;
-        //        text = value;
-
-        //        if(textArray != null)
-        //        {
-        //            Array.Clear(textArray, 0, textArray.Length);
-        //        }
-        //    }
-
+        /// <summary>
+        /// Catch a typed input from the keyboard
+        /// </summary>
+        void ITextInputHandler.CatchInput(char inputChar)
+        {
+            CatchInput(inputChar);
+        }
 
         /// <summary>
         /// Catch a typed input from the keyboard
@@ -227,7 +308,7 @@ namespace Portfolio.Shared
                 throw new NullReferenceException($"[{nameof(TypableText)}]: {gameObject.name} No text has been found");
             }
 
-            if (userInput.Count == text.Length)
+            if (IsTextCompletelyTyped)
             {
                 Debug.Log($"[{nameof(TypableText)}]: Text typable lenght reached");
                 return;
@@ -240,7 +321,7 @@ namespace Portfolio.Shared
             {
                 if (resetWhenError && currentErrorCount >= errorTreshold - 1)
                 {
-                    ResetTypableText(text);
+                    ResetText();
                     currentErrorCount = 0;
                     onErrorTresholdExceedEvent?.Invoke();
                     return;
@@ -257,6 +338,11 @@ namespace Portfolio.Shared
                 userInput.Enqueue(input);
                 MoveCharRight(ref textArray);
                 tmpText.SetCharArray(textArray);
+
+                if (IsTextCompletelyTyped)
+                {
+                    onTextTypedEvent?.Invoke();
+                }
             }
         }
 
@@ -292,6 +378,60 @@ namespace Portfolio.Shared
             }
 
             chars.MoveCharRight(moveIndex, endTagLength);
+        }
+
+        /// <summary>
+        /// Reset the text to it's original version
+        /// </summary>
+        public void ResetText()
+        {
+            ResetTypableText(text);
+            onTextResettedEvent?.Invoke();
+        }
+
+        /// <summary>
+        /// Register / Unregister the typable to the group if any
+        /// </summary>
+        /// <param name="typableGroup">Typable group</param>
+        /// <param name="setMemberValue">Reset the gropu if true</param>
+        private void SetGroup(TypableGroup typableGroup, bool setMemberValue = false)
+        {
+            if(group != null)
+            {
+                group.UnregisterToggle(this);
+            }
+
+            if (setMemberValue)
+            {
+                group = typableGroup;
+            }
+
+            if(typableGroup != null && enabled)
+            {
+                group.RegisterToggle(this);
+            }
+        }
+
+        /// <summary>
+        /// Register the typable to the keyboard
+        /// </summary>
+        private void RegisterKeyboardInput()
+        {
+            //Register only if the group is not setted
+            if(group != null)
+            {
+                return;
+            }
+
+            Keyboard.current.onTextInput += CatchInput;
+        }
+
+        /// <summary>
+        /// Unregister the typable from the keyboard
+        /// </summary>
+        private void UnregisterKeyboardInput() 
+        {
+            Keyboard.current.onTextInput -= CatchInput;
         }
     }
 }

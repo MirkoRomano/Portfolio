@@ -58,16 +58,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b65879ae447cf4f49b1186ef6d446601, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: Ciao io mi chiamo mirko e tu invece come ti chiami?h
-  textArray: 3c0063006f006c006f0072003d0023006600660030003000300030003e003c002f0063006f006c006f0072003e004300690061006f00200069006f0020006d006900200063006800690061006d006f0020006d00690072006b006f0020006500200074007500200069006e007600650063006500200063006f006d006500200074006900200063006800690061006d0069003f006800
-  highlitedColor: {r: 1, g: 0, b: 0, a: 1}
+  text: New Text
+  textArray: 3c0063006f006c006f0072003d0023006600310032003100370062003e003c002f0063006f006c006f0072003e004e006500770020005400650078007400
+  highlitedColor: {r: 0.94509804, g: 0.12941177, b: 0.48235294, a: 1}
   textColor: {r: 1, g: 1, b: 1, a: 1}
   resetWhenError: 0
   errorTreshold: 1
+  group: {fileID: 0}
   onErrorCommittedEvent:
     m_PersistentCalls:
       m_Calls: []
   onErrorTresholdExceedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onTextTypedEvent:
     m_PersistentCalls:
       m_Calls: []
   tmpText: {fileID: 0}
@@ -136,7 +140,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: <color=#ff0000></color>Ciao io mi chiamo mirko e tu invece come ti chiami?h
+  m_text: <color=#f1217b></color>New Text
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -170,8 +174,8 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
