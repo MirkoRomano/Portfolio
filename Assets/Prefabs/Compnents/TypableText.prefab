@@ -74,6 +74,9 @@ MonoBehaviour:
   onTextTypedEvent:
     m_PersistentCalls:
       m_Calls: []
+  onTextResettedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   tmpText: {fileID: 0}
 --- !u!1 &7458631055765678886
 GameObject:

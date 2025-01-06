@@ -178,14 +178,17 @@ namespace Portfolio.UnityEditor
             GUILayout.BeginVertical();
 
             GUILayout.Label("Settings");
-            EditorGUILayout.PropertyField(resetWhenError);
-            if (resetWhenError.boolValue)
-            {
-                errorTreshold.intValue = Mathf.Max(errorTreshold.intValue, 0);
-                EditorGUILayout.PropertyField(errorTreshold);
-            }
 
             EditorGUILayout.PropertyField(group);
+            if(group.objectReferenceValue == null)
+            {
+                EditorGUILayout.PropertyField(resetWhenError);
+                if (resetWhenError.boolValue)
+                {
+                    errorTreshold.intValue = Mathf.Max(errorTreshold.intValue, 0);
+                    EditorGUILayout.PropertyField(errorTreshold);
+                }
+            }
 
             GUILayout.EndVertical();
         }
