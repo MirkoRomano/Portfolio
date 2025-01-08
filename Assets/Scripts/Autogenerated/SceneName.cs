@@ -11,10 +11,10 @@ namespace Portfolio.Shared
      */
     public enum SceneName
     {
-        Scn_MainMenu,
-        Scn_Acquarium,
-        Scn_TypingHero_Gameplay,
-        Scn_TypingHero_Intro,
-        Scn_TypingHero_Menu,
+        Scn_MainMenu = 0,
+        Scn_Acquarium = 1,
+        Scn_TypingHero_Gameplay = 2,
+        Scn_TypingHero_Intro = 3,
+        Scn_TypingHero_Menu = 4,
     }
 }
