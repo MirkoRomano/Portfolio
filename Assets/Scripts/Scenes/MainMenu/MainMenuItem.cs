@@ -55,7 +55,7 @@ namespace Portfolio.MainMenu
         /// <returns></returns>
         string ISceneInfo.GetSceneName()
         {
-            return menuItemInfo.Scene.SceneName;
+            return menuItemInfo.Scene.ToString();
         }
 
         /// <summary>

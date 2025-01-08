@@ -1,3 +1,4 @@
+using Portfolio.Shared;
 using UnityEngine;
 
 namespace Portfolio.MainMenu
@@ -22,8 +23,8 @@ namespace Portfolio.MainMenu
         public int PlayersCount;
 
         /// <summary>
-        /// Game scene
+        /// Game scene Name
         /// </summary>
-        public SceneField Scene;
+        public SceneName Scene;
     }
 }

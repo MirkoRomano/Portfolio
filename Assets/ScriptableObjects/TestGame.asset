@@ -15,6 +15,4 @@ MonoBehaviour:
   Name: Test scene
   Description: Ths is a scene used only for testing the menu functionalty
   PlayersCount: 1
-  Scene:
-    m_SceneAsset: {fileID: 102900000, guid: d93dc7cebe6ff394a91ee1eb9ec05e1b, type: 3}
-    m_SceneName: TestScene
+  Scene: 4
