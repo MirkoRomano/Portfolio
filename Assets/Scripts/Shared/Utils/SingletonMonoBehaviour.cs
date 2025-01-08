@@ -20,6 +20,11 @@ namespace Portfolio
         public static bool HasInstance => instance != null;
 
         /// <summary>
+        /// Application quitting check
+        /// </summary>
+        private static bool isApplicationQuitting = false;
+
+        /// <summary>
         /// Instance
         /// </summary>
         public static T Instance
@@ -30,6 +35,11 @@ namespace Portfolio
                 {
                     if (instance == null)
                     {
+                        if (isApplicationQuitting)
+                        {
+                            throw new System.InvalidOperationException($"{nameof(T)} Cannot create a new instance during application quitting process");
+                        }
+
                         GameObject obj = new GameObject($"{typeof(T)} Singleton");
                         instance = obj.AddComponent<T>();
                         DontDestroyOnLoad(instance);
@@ -43,19 +53,24 @@ namespace Portfolio
 
         protected virtual void Awake()
         {
-            if (instance != null && !instance.Equals(this))
+            if (HasInstance && !instance.Equals(this))
             {
                 Debug.LogError($"Theres already a singleton instance of {this.name}");
                 Destroy(this);
                 return;
             }
 
-            if (instance == null && TryGetComponent<T>(out T target))
+            if (!HasInstance && TryGetComponent<T>(out T target))
             {
                 instance = target;
                 DontDestroyOnLoad(instance);
                 return;
             }
+        }
+
+        protected virtual void OnApplicationQuit()
+        {
+            isApplicationQuitting = true;
         }
     }
 }

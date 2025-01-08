@@ -6,11 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
+    path: Assets/Scenes/Scn_MainMenu.unity
     guid: 5a97c0bae9a48a0468ce3d5beb07d3cf
   - enabled: 1
-    path: Assets/Scenes/TestScene.unity
-    guid: d93dc7cebe6ff394a91ee1eb9ec05e1b
+    path: Assets/Scenes/TypingHero/Scn_TypingHero_Intro.unity
+    guid: 01a86276f0cbc1f41ab3e1e8325f23cd
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 71811e067258f8f49a7bd72feefda84e,
       type: 2}
